@@ -24,13 +24,13 @@ Function juniper_decrypt(strPassword As String) As Variant
     Dim vChar As Variant
     Dim vFamily As Variant
     Dim vNum_Alpha As Variant
+    Dim vEncodings As Variant
     Dim vNibble As Variant
     Dim vDecode As Variant
     Dim objEncoding As Object
     Dim objAlpha_Num As Object
     Dim objExtra As Object
     Dim objGaps As Object
-
 
     On Error GoTo juniper_decrypt_error_handler
 
@@ -44,21 +44,18 @@ Function juniper_decrypt(strPassword As String) As Variant
                     Array("7", "N", "-", "d", "V", "b", "w", "s", "Y", "2", "g", "4", "o", "a", "J", "Z", "G", "U", "D", "j"), _
                     Array("i", "H", "k", "q", ".", "m", "P", "f", "5", "T"))
 
-
+    vEncodings = Array(Array(1, 4, 32), Array(1, 16, 32), Array(1, 8, 32), Array(1, 64), Array(1, 32), _
+                       Array(1, 4, 16, 128), Array(1, 32, 64))
+    
     Set objEncoding = CreateObject("Scripting.Dictionary")
-    objEncoding.Add objEncoding.Count, Array(1, 4, 32)
-    objEncoding.Add objEncoding.Count, Array(1, 16, 32)
-    objEncoding.Add objEncoding.Count, Array(1, 8, 32)
-    objEncoding.Add objEncoding.Count, Array(1, 64)
-    objEncoding.Add objEncoding.Count, Array(1, 32)
-    objEncoding.Add objEncoding.Count, Array(1, 4, 16, 128)
-    objEncoding.Add objEncoding.Count, Array(1, 32, 64)
+    For intCounter = LBound(vEncodings) To UBound(vEncodings):
+        objEncoding.Add objEncoding.Count, vEncodings(intCounter)
+    Next intCounter
 
     Set objAlpha_Num = CreateObject("Scripting.Dictionary")
     For intCounter = LBound(vNum_Alpha) To UBound(vNum_Alpha):
         objAlpha_Num.Add vNum_Alpha(intCounter), intCounter
     Next intCounter
-
 
     Set objExtra = CreateObject("Scripting.Dictionary")
     For intCounter = LBound(vFamily) To UBound(vFamily)
