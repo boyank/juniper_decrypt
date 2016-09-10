@@ -7,7 +7,7 @@ Option Explicit
 ' Purpose   : Decrypt Juniper $9$ Type password. Ported to VBA from Python https://github.com/mhite/junosdecode
 '---------------------------------------------------------------------------------------
 
-Function juniper_decrypt(strPassword) As Variant
+Function juniper_decrypt(strPassword As String) As Variant
 
     Dim intCounter As Integer
     Dim intGap As Integer
